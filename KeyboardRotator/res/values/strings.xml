@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Type the button to start rotation!</string>
+    <string name="start_rotation">Type the button to start rotation!</string>
     <string name="rotation">Start rotation</string>
     <string name="app_name">Keyboard Rotation</string>
 

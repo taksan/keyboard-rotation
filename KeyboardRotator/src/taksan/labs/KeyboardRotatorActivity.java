@@ -7,15 +7,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class AndroidHelloActivity extends Activity {
+public class KeyboardRotatorActivity extends Activity {
+	Timer rotationTimer = new Timer(true);
 	
-
-	Timer rotationClock = new Timer("rotation timer", true);
-	
-	public AndroidHelloActivity() {
+	public KeyboardRotatorActivity() {
 		int _5min = 1000;
 		TimerTask task = new RotationTask(new AndroidApiImpl(this));
-		rotationClock.scheduleAtFixedRate(task , _5min, _5min);
+		rotationTimer.scheduleAtFixedRate(task , _5min, _5min);
 	}
 	
     @Override
