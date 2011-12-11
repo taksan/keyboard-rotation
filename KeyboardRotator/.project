@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AndroidHelloTest</name>
+	<name>KeyboardRotator</name>
 	<comment></comment>
 	<projects>
-		<project>AndroidHello</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
