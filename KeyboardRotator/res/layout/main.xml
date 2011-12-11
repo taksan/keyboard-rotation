@@ -7,12 +7,23 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_rotation" />
+        android:text="@string/start_rotation" android:textColor="#A0A0FF" android:textSize="28px"/>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/rotationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rotation" />
+        android:text="@string/rotationStart" />
+
+    <TextView
+        android:id="@+id/currentPlayer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/rotationStopped"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#00FF00"
+        android:textSize="20pt" />
 
 </LinearLayout>

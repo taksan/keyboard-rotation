@@ -2,7 +2,9 @@
 <resources>
 
     <string name="start_rotation">Type the button to start rotation!</string>
-    <string name="rotation">Start rotation</string>
+    <string name="rotationStart">Start rotation</string>
+    <string name="rotationStop">Stop rotation</string>
     <string name="app_name">Keyboard Rotation</string>
+    <string name="rotationStopped">Rotation Stopped</string>
 
 </resources>
