@@ -3,6 +3,7 @@ package taksan.labs.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import taksan.labs.RotationTask;
+import taksan.labs.test.mock.CurrentPlayerManagerMock;
 
 public class RotationTaskTest extends TestCase {
 	public void testOnRun_FireVibrate() {

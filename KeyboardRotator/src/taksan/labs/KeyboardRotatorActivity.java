@@ -36,19 +36,22 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 			}
 		};
 		
-		configureRotationTimerBar();
-		
 		TimerManagerImpl timerManager = new TimerManagerImpl();
 		rotationManager = new RotationManagerImpl(rotationTaskFactory, timerManager, this, this);
+		
+		configureRotationTimerBar();
+		
 		RotationClickListener rotationClickListener = new RotationClickListener(rotationManager);
 		playerText.setOnClickListener(rotationClickListener);
+		
+		updateRotationTimeLabel();
     }
 
 	private void configureRotationTimerBar() {
 		timeSlider = (SeekBar) findViewById(R.id.rotationTimer);
 		timeSlider.setMax(15);
 		timeSlider.setProgress(7);
-		RotationTimeChangeListener listener = new RotationTimeChangeListener(rotationManager);
+		RotationTimeChangeListener listener = new RotationTimeChangeListener(rotationManager, this);
 		timeSlider.setOnSeekBarChangeListener(listener);
 	}
 
@@ -87,6 +90,17 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 	}
 
 	public int getRotationPeriod() {
-		return timeSlider.getProgress();
+		return timeSlider.getProgress() * 60000;
+	}
+
+	public void fireRotationTimeChanged() {
+		updateRotationTimeLabel();
+	}
+
+	private void updateRotationTimeLabel() {
+		TextView timeLabel = (TextView) findViewById(R.id.rotationTimeLabel);
+		int progress = timeSlider.getProgress();
+		String label = getString(R.string.timer_slider);
+		timeLabel.setText(label + " " + progress + " min");
 	}
 }

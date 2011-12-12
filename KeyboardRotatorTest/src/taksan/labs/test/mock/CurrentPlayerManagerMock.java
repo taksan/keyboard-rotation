@@ -1,4 +1,4 @@
-package taksan.labs.test;
+package taksan.labs.test.mock;
 
 import taksan.labs.android.CurrentPlayerManager;
 

@@ -6,6 +6,7 @@ public class RotationListenerMock implements RotationListener {
 
 	private boolean disableInvoked;
 	private boolean enableInvoked;
+	private boolean rotationTimeChangedInvoked;
 
 	@Override
 	public void fireRotationEnabled() {
@@ -23,6 +24,15 @@ public class RotationListenerMock implements RotationListener {
 
 	public boolean disableNotificationInvoked() {
 		return disableInvoked;
+	}
+
+	@Override
+	public void fireRotationTimeChanged() {
+		rotationTimeChangedInvoked = true;
+	}
+
+	public boolean rotationTimeChangedInvoked() {
+		return rotationTimeChangedInvoked;
 	}
 
 

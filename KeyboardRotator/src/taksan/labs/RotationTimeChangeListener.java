@@ -6,15 +6,16 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class RotationTimeChangeListener implements
 		OnSeekBarChangeListener {
 	private final RotationManager rotationManager;
+	private final RotationListener listener;
 
-	public RotationTimeChangeListener(RotationManager rotationManager) 
+	public RotationTimeChangeListener(RotationManager rotationManager, RotationListener listener) 
 	{
 		this.rotationManager = rotationManager;
+		this.listener = listener;
 		
 	}
 	public void onStopTrackingTouch(SeekBar seekBar) {
-		rotationManager.disableRotation();
-		rotationManager.enableRotation();
+		rotationManager.updateRotationTime();
 	}
 
 	public void onStartTrackingTouch(SeekBar seekBar) {
@@ -22,5 +23,6 @@ public class RotationTimeChangeListener implements
 
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
+		listener.fireRotationTimeChanged();
 	}
 }

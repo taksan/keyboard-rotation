@@ -3,6 +3,7 @@ package taksan.labs.test;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import taksan.labs.android.CurrentPlayerManagerImpl;
+import taksan.labs.test.mock.PlayerManagerMock;
 
 public class NotificationApiImplTest extends TestCase {
 	public void testOnFireNotification_ShouldChangePlayer()

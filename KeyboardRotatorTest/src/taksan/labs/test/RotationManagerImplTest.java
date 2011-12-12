@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import taksan.labs.RotationManagerImpl;
 import taksan.labs.TimerTaskFactory;
 import taksan.labs.test.mock.RotationListenerMock;
+import taksan.labs.test.mock.RotationTimeProviderMock;
 import taksan.labs.test.mock.TimerManagerMock;
 
 public class RotationManagerImplTest extends TestCase {
