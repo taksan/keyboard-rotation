@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="start_rotation">Tap the text to start rotation!</string>
     <string name="rotationStart">Start rotation</string>
     <string name="rotationStop">Stop rotation</string>
     <string name="app_name">Keyboard Rotation</string>
-    <string name="rotationStopped">Rotation Stopped</string>
+    <string name="rotationStopped">Rotation Stopped. Tap here to start</string>
     <string name="timer_slider">Rotation time: </string>
 
 </resources>

@@ -16,15 +16,18 @@ import android.widget.TextView;
 
 public class KeyboardRotatorActivity extends Activity implements PlayerManager, RotationListener, RotationTimeProvider {
 	
+	private static final String ROTATION_TIME = "RotationTime";
 	final private Handler mHandler = new Handler();
 	private CurrentPlayerManagerImpl currentPlayerManager;
 	private TextView playerText;
 	private SeekBar timeSlider;
 	private RotationManagerImpl rotationManager;
+	private Bundle savedInstanceState;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+		super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         playerText = (TextView) findViewById(R.id.currentPlayer);
         
@@ -50,7 +53,8 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 	private void configureRotationTimerBar() {
 		timeSlider = (SeekBar) findViewById(R.id.rotationTimer);
 		timeSlider.setMax(15);
-		timeSlider.setProgress(7);
+		Integer rotationTime = this.savedInstanceState.getInt(ROTATION_TIME, 7);
+		timeSlider.setProgress(rotationTime);
 		RotationTimeChangeListener listener = new RotationTimeChangeListener(rotationManager, this);
 		timeSlider.setOnSeekBarChangeListener(listener);
 	}
@@ -79,6 +83,7 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 
 	public void fireRotationDisabled() {
 		playerText.setText(R.string.rotationStopped);
+		playerText.setTextColor(Color.GREEN);
 	}
 	
 	private void vibrate() {
@@ -105,5 +110,7 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 		int progress = timeSlider.getProgress();
 		String label = getString(R.string.timer_slider);
 		timeLabel.setText(label + " " + progress + " min");
+		
+		this.savedInstanceState.putInt(ROTATION_TIME, progress);
 	}
 }
