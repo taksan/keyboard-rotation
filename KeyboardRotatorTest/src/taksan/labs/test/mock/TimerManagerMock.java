@@ -8,9 +8,11 @@ public class TimerManagerMock implements TimerManager {
 
 	private boolean scheduleAtFixedRateWasInvoked = false;
 	private boolean cancelInvoked = false;
+	private long rotationDelay;
 
 	@Override
 	public void scheduleAtFixedRate(TimerTask rotationTask, long rotationDelay) {
+		this.rotationDelay = rotationDelay;
 		scheduleAtFixedRateWasInvoked = true;
 	}
 
@@ -25,5 +27,9 @@ public class TimerManagerMock implements TimerManager {
 
 	public boolean cancelWasInvoked() {
 		return cancelInvoked;
+	}
+
+	public long getProvidedPeriod() {
+		return rotationDelay;
 	}
 }

@@ -5,27 +5,64 @@ import java.util.TimerTask;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import taksan.labs.RotationManagerImpl;
-import taksan.labs.TimerManagerImpl;
 import taksan.labs.TimerTaskFactory;
 import taksan.labs.test.mock.RotationListenerMock;
 import taksan.labs.test.mock.TimerManagerMock;
 
 public class RotationManagerImplTest extends TestCase {
+	RotationManagerImpl subject;
+	private TimerManagerMock timerMock;
+	private RotationTimeProviderMock timerProviderMock;
+	private RotationListenerMock listenerMock;
+	
+	public RotationManagerImplTest() {
+		timerMock = new TimerManagerMock();
+		listenerMock = new RotationListenerMock();
+		
+		timerProviderMock = new RotationTimeProviderMock();
+		subject = new RotationManagerImpl(getMockTaskFactory(), timerMock, listenerMock, timerProviderMock);
+	}
 	public void testWhenRotationIsEnabled_ShouldScheduleRotationTask()
 	{
-		TimerManagerMock timerMock = new TimerManagerMock();
-		RotationListenerMock listenerMock = new RotationListenerMock();
-		
-		RotationManagerImpl subject = new RotationManagerImpl(getMockTaskFactory(), timerMock, listenerMock);
-		
 		subject.enableRotation();
 		Assert.assertTrue(timerMock.scheduleAtFixedRateWasInvoked());
+		Assert.assertEquals(timerProviderMock.getRotationPeriod(), timerMock.getProvidedPeriod());
 		Assert.assertTrue(listenerMock.enableNotificationInvoked());
 		
 		subject.disableRotation();
 		Assert.assertTrue(timerMock.cancelWasInvoked());
 		Assert.assertTrue(listenerMock.disableNotificationInvoked());
 		
+	}
+	
+	public void testWhenToggleIsInvoked_ShouldChangeRotationState() {
+		subject.toggleRotation();
+		Assert.assertTrue(timerMock.scheduleAtFixedRateWasInvoked());
+		Assert.assertEquals(timerProviderMock.getRotationPeriod(), timerMock.getProvidedPeriod());
+		Assert.assertTrue(listenerMock.enableNotificationInvoked());
+		
+		subject.toggleRotation();
+		Assert.assertTrue(timerMock.cancelWasInvoked());
+		Assert.assertTrue(listenerMock.disableNotificationInvoked());
+		
+	}
+	
+	public void testWhenUpdateIsInvoked_ShouldRescheduleAndKeepEnabled() {
+		subject.enableRotation();
+		int newRotationTime = 5000;
+		timerProviderMock.setRotationPeriod(newRotationTime);
+		subject.updateRotationTime();
+		Assert.assertEquals(5000, timerMock.getProvidedPeriod());
+		Assert.assertTrue(subject.isRotationEnabled());
+	}
+	
+	public void testWhenUpdateIsInvokedAndIsDisabled_ShouldUpdateAfterEnable() {
+		int newRotationTime = 5000;
+		timerProviderMock.setRotationPeriod(newRotationTime);
+		subject.updateRotationTime();
+		Assert.assertFalse(subject.isRotationEnabled());
+		subject.enableRotation();
+		Assert.assertEquals(5000, timerMock.getProvidedPeriod());
 	}
 	
 	private TimerTaskFactory getMockTaskFactory() {
@@ -41,17 +78,5 @@ public class RotationManagerImplTest extends TestCase {
 				};
 			}
 		};
-	}
-
-	public void test() throws InterruptedException {
-		TimerManagerImpl impl = new TimerManagerImpl();
-		impl.scheduleAtFixedRate(new TimerTask() {
-			
-			@Override
-			public void run() {
-				System.out.println("foo");
-			}
-		}, 1000);
-		Thread.sleep(4000);
 	}
 }

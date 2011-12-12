@@ -12,16 +12,6 @@ public class RotationClickListenerTest extends TestCase {
 		RotationClickListener subject = new RotationClickListener(mock);
 		subject.onClick(null);
 		
-		Assert.assertTrue(mock.isRotationActivated());
-	}
-	
-	public void testOnSecondClick_ShouldDisableRotation()
-	{
-		RotationManagerMock mock = new RotationManagerMock();
-		RotationClickListener subject = new RotationClickListener(mock);
-		subject.onClick(null);
-		subject.onClick(null);
-		
-		Assert.assertFalse(mock.isRotationActivated());
+		Assert.assertTrue(mock.wasRotationToggleInvoked());
 	}
 }

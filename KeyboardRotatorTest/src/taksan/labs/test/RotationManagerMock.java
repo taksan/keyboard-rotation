@@ -1,14 +1,11 @@
-package taksan.labs.test.mock;
+package taksan.labs.test;
 
 import taksan.labs.RotationManager;
 
-public class RotationManagerMock implements RotationManager {
+public class RotationManagerMock implements
+		RotationManager {
+	boolean updateInvoked = false;
 
-	boolean toggleWasInvoked = false;
-	public boolean wasRotationToggleInvoked() {
-		return toggleWasInvoked;
-	}
-	
 	@Override
 	public void enableRotation() {
 		throw new RuntimeException("NOT IMPLEMENTED");
@@ -21,12 +18,15 @@ public class RotationManagerMock implements RotationManager {
 
 	@Override
 	public void updateRotationTime() {
-		throw new RuntimeException("NOT IMPLEMENTED");
+		updateInvoked = true;
+	}
+	
+	public boolean updateInvoked() {
+		return updateInvoked;
 	}
 
 	@Override
 	public void toggleRotation() {
-		toggleWasInvoked = true;
+		throw new RuntimeException("NOT IMPLEMENTED");
 	}
-
 }

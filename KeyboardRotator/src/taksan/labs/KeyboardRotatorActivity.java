@@ -11,21 +11,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class KeyboardRotatorActivity extends Activity implements PlayerManager, RotationListener {
+public class KeyboardRotatorActivity extends Activity implements PlayerManager, RotationListener, RotationTimeProvider {
 	
 	final private Handler mHandler = new Handler();
-    private Button rotation;
 	private CurrentPlayerManagerImpl currentPlayerManager;
 	private TextView playerText;
+	private SeekBar timeSlider;
+	private RotationManagerImpl rotationManager;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        rotation = (Button) findViewById(R.id.rotationButton);
         playerText = (TextView) findViewById(R.id.currentPlayer);
         
 		TimerTaskFactory rotationTaskFactory = new TimerTaskFactory() {
@@ -35,11 +35,22 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 				return new RotationTask(currentPlayerManager);
 			}
 		};
-		RotationManagerImpl rotationManager = new RotationManagerImpl(rotationTaskFactory, new TimerManagerImpl(), this);
-		RotationClickListener rotationClickListener = new RotationClickListener(rotationManager);
-		rotation.setOnClickListener(rotationClickListener);
 		
+		configureRotationTimerBar();
+		
+		TimerManagerImpl timerManager = new TimerManagerImpl();
+		rotationManager = new RotationManagerImpl(rotationTaskFactory, timerManager, this, this);
+		RotationClickListener rotationClickListener = new RotationClickListener(rotationManager);
+		playerText.setOnClickListener(rotationClickListener);
     }
+
+	private void configureRotationTimerBar() {
+		timeSlider = (SeekBar) findViewById(R.id.rotationTimer);
+		timeSlider.setMax(15);
+		timeSlider.setProgress(7);
+		RotationTimeChangeListener listener = new RotationTimeChangeListener(rotationManager);
+		timeSlider.setOnSeekBarChangeListener(listener);
+	}
 
 	public void setCurrentPlayer(final String player) {
 		vibrate();
@@ -58,11 +69,9 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 
 	public void fireRotationEnabled() {
 		setCurrentPlayer(currentPlayerManager.getCurrentPlayer());
-		rotation.setText(R.string.rotationStop);
 	}
 
 	public void fireRotationDisabled() {
-		rotation.setText(R.string.rotationStart);
 		playerText.setText(R.string.rotationStopped);
 	}
 	
@@ -75,5 +84,9 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 		catch(Exception e) {
 			Log.println(Log.INFO, "TestRunner", "Vibrations needs permission");
 		}
+	}
+
+	public int getRotationPeriod() {
+		return timeSlider.getProgress();
 	}
 }

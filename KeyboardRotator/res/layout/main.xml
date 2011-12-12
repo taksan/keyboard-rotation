@@ -9,11 +9,17 @@
         android:layout_height="wrap_content"
         android:text="@string/start_rotation" android:textColor="#A0A0FF" android:textSize="28px"/>
 
-    <Button
-        android:id="@+id/rotationButton"
+    <TextView
+        android:id="@+id/rotationTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rotationStart" />
+        android:text="@string/timer_slider"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/rotationTimer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/currentPlayer"

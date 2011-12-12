@@ -12,6 +12,8 @@ public class TimerManagerImpl implements TimerManager {
 	}
 
 	public void cancel() {
+		if (timer == null)
+			return;
 		timer.cancel();
 	}
 
