@@ -71,7 +71,10 @@ public class KeyboardRotatorActivity extends Activity implements PlayerManager, 
 	}
 
 	public void fireRotationEnabled() {
-		setCurrentPlayer(currentPlayerManager.getCurrentPlayer());
+		String currentPlayer = currentPlayerManager.getCurrentPlayer();
+		if (currentPlayer == null)
+			return;
+		setCurrentPlayer(currentPlayer);
 	}
 
 	public void fireRotationDisabled() {
