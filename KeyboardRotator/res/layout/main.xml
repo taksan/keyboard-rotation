@@ -16,6 +16,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
+    <ProgressBar
+        android:id="@+id/turnProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/currentPlayer"
         android:layout_width="fill_parent"

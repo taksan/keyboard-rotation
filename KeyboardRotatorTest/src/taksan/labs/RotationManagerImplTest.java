@@ -1,4 +1,4 @@
-package taksan.labs.test;
+package taksan.labs;
 
 import java.util.TimerTask;
 
@@ -6,9 +6,9 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import taksan.labs.RotationManagerImpl;
 import taksan.labs.TimerTaskFactory;
-import taksan.labs.test.mock.RotationListenerMock;
-import taksan.labs.test.mock.RotationTimeProviderMock;
-import taksan.labs.test.mock.TimerManagerMock;
+import taksan.labs.mocks.RotationListenerMock;
+import taksan.labs.mocks.RotationTimeProviderMock;
+import taksan.labs.mocks.TimerManagerMock;
 
 public class RotationManagerImplTest extends TestCase {
 	RotationManagerImpl subject;

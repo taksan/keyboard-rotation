@@ -3,12 +3,12 @@ package taksan.labs;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class RotationTimeChangeListener implements
+public class RotationPeriodReconfiguredListener implements
 		OnSeekBarChangeListener {
 	private final RotationManager rotationManager;
-	private final RotationListener listener;
+	private final RotationChangeListener listener;
 
-	public RotationTimeChangeListener(RotationManager rotationManager, RotationListener listener) 
+	public RotationPeriodReconfiguredListener(RotationManager rotationManager, RotationChangeListener listener) 
 	{
 		this.rotationManager = rotationManager;
 		this.listener = listener;
@@ -22,6 +22,6 @@ public class RotationTimeChangeListener implements
 	}
 
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		listener.fireRotationTimeChanged();
+		listener.fireRotationTimeReconfigured();
 	}
 }

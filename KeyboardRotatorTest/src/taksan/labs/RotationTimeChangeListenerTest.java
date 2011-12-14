@@ -1,20 +1,18 @@
-package taksan.labs.test;
+package taksan.labs;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import taksan.labs.RotationTimeChangeListener;
-import taksan.labs.test.mock.RotationListenerMock;
-import taksan.labs.test.mock.RotationManagerMock;
+import taksan.labs.mocks.RotationManagerMock;
 
 public class RotationTimeChangeListenerTest extends TestCase {
-	private RotationTimeChangeListener subject;
-	private RotationListenerMock listenerMock;
+	private RotationPeriodReconfiguredListener subject;
+	private RotationChangeListenerMock listenerMock;
 	private RotationManagerMock rotationManager;
 
 	public RotationTimeChangeListenerTest() {
 		rotationManager = new RotationManagerMock();
-		listenerMock = new RotationListenerMock();
-		subject = new RotationTimeChangeListener(rotationManager, listenerMock);
+		listenerMock = new RotationChangeListenerMock();
+		subject = new RotationPeriodReconfiguredListener(rotationManager, listenerMock);
 	}
 	
 	public void testOnStopTracking_WillUpdateTimeAndNotifyTheRotationManager()

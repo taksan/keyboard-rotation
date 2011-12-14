@@ -1,4 +1,4 @@
-package taksan.labs.test.mock;
+package taksan.labs.mocks;
 
 import java.util.TimerTask;
 
@@ -9,9 +9,11 @@ public class TimerManagerMock implements TimerManager {
 	private boolean scheduleAtFixedRateWasInvoked = false;
 	private boolean cancelInvoked = false;
 	private long rotationDelay;
+	private TimerTask rotationTask;
 
 	@Override
 	public void scheduleAtFixedRate(TimerTask rotationTask, long rotationDelay) {
+		this.rotationTask = rotationTask;
 		this.rotationDelay = rotationDelay;
 		scheduleAtFixedRateWasInvoked = true;
 	}
@@ -31,5 +33,9 @@ public class TimerManagerMock implements TimerManager {
 
 	public long getProvidedPeriod() {
 		return rotationDelay;
+	}
+
+	public void tick() {
+		rotationTask.run();
 	}
 }

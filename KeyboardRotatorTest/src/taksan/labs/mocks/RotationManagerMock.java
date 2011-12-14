@@ -1,4 +1,4 @@
-package taksan.labs.test.mock;
+package taksan.labs.mocks;
 
 import taksan.labs.RotationManager;
 

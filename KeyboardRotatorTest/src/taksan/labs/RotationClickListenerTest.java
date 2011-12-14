@@ -1,9 +1,9 @@
-package taksan.labs.test;
+package taksan.labs;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import taksan.labs.RotationClickListener;
-import taksan.labs.test.mock.RotationManagerMock;
+import taksan.labs.mocks.RotationManagerMock;
 
 public class RotationClickListenerTest extends TestCase {
 	public void testOnFirstClick_ShouldEnableRotation()
