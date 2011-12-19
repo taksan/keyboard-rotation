@@ -8,10 +8,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -52,7 +54,7 @@ public class KeyboardRotatorActivity extends Activity
 		timeSlider = (SeekBar) findViewById(R.id.rotationTimer);
 		new RotationTimerConfigurator(timeSlider, MAX_ROTATION_TIME, getRotationTime(), rotationManager, this).configure();
 		
-		initializeTurnProgress();
+		initializeTurnProgressIndicator();
 		
 		RotationClickListener rotationClickListener = new RotationClickListener(rotationManager);
 		playerText.setOnClickListener(rotationClickListener);
@@ -60,7 +62,7 @@ public class KeyboardRotatorActivity extends Activity
 		updateRotationTimeLabel();
     }
 
-	private void initializeTurnProgress() {
+	private void initializeTurnProgressIndicator() {
 		turnProgress.setVisibility(View.INVISIBLE);
 	}
 
@@ -71,13 +73,13 @@ public class KeyboardRotatorActivity extends Activity
 	}
 
 	public void setCurrentPlayer(final String player) {
-		vibrate();
+		alertRotation();
 		
 		final Runnable mUpdateUITimerTask = new Runnable() {
 		    public void run() {
 		    	playerText.setText(player);
 		    	if (player.equals("player 1"))
-		    		playerText.setTextColor(Color.BLUE);
+		    		playerText.setTextColor(Color.YELLOW);
 		    	else
 		    		playerText.setTextColor(Color.RED);
 		    	
@@ -97,6 +99,8 @@ public class KeyboardRotatorActivity extends Activity
 	}
 
 	private void startProgressBar() {
+		if (turnProgressTask != null)
+			turnProgressTask.cancel();
 		turnProgress.setVisibility(View.VISIBLE);
 		turnProgress.setMax(this.getRotationPeriod() / 100);
 		turnProgressTask = new TurnProgressTask(new ClockImpl(), this);
@@ -105,7 +109,7 @@ public class KeyboardRotatorActivity extends Activity
 
 	public void fireRotationDisabled() {
 		playerText.setText(R.string.rotationStopped);
-		playerText.setTextColor(Color.GREEN);
+		playerText.setTextColor(Color.CYAN);
 		
 		stopProgressBar();
 	}
@@ -115,14 +119,31 @@ public class KeyboardRotatorActivity extends Activity
 		turnProgressTask.cancel();
 	}
 	
-	private void vibrate() {
-		try {
-			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			long[] pattern = new long[] { 100, 250, 100, 500};
-			vibrator.vibrate(pattern, -1);
-		}
-		catch(Exception e) {
-			Log.println(Log.INFO, "TestRunner", "Vibrations needs permission");
+	private void alertRotation() {
+		playAlert();
+	}
+
+	private void playAlert() {
+		Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+	     if(alert == null){
+	         alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+	         if(alert == null){  
+	             alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);               
+	         }
+	     }
+	     MediaPlayer mMediaPlayer = new MediaPlayer();
+	     try {
+			mMediaPlayer.setDataSource(this, alert);
+			final AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+		     if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+		    	 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+		    	 mMediaPlayer.prepare();
+		    	 mMediaPlayer.start();
+		    	 Thread.sleep(1000);
+		    	 mMediaPlayer.stop();
+		      }
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

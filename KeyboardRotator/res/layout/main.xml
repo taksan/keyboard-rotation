@@ -30,7 +30,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/rotationStopped"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#00FF00"
+        android:textColor="#00FFFF"
         android:textSize="20pt" />
 
 </LinearLayout>
