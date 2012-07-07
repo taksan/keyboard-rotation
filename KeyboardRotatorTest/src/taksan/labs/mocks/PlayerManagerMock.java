@@ -8,7 +8,7 @@ public class PlayerManagerMock implements PlayerManager {
 
 
 	@Override
-	public void setCurrentPlayer(String player) {
+	public void setCurrentPlayerInUi(String player) {
 		currentPlayer = player;
 	}
 

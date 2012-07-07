@@ -23,10 +23,12 @@ public class CurrentPlayerManagerImpl implements CurrentPlayerManager {
 			currentPlayer = "player 1";
 		}
 		
-		playerManager.setCurrentPlayer(currentPlayer);
+		playerManager.setCurrentPlayerInUi(currentPlayer);
 	}
 
 	public String getCurrentPlayer() {
+		if (currentPlayer == null)
+			currentPlayer="player 1";
 		return currentPlayer;
 	}
 

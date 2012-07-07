@@ -1,30 +1,21 @@
 package taksan.labs;
 
-import java.util.TimerTask;
 
 public class RotationManagerImpl implements RotationManager {
 
 	TimerManager rotationTimer;
 	private final RotationListener listener;
-	private final TimerTaskFactory timerTaskFactory;
-	private final RotationTimeProvider timeProvider;
 	private boolean enabled = false;
 	
 	public RotationManagerImpl(
-			TimerTaskFactory timerTaskFactory, 
 			TimerManager timerManager, 
-			RotationListener listener,
-			RotationTimeProvider timeProvider) 
+			RotationListener listener) 
 	{
-		this.timerTaskFactory = timerTaskFactory;
 		this.rotationTimer = timerManager;
 		this.listener = listener;
-		this.timeProvider = timeProvider;
 	}
 
 	public void enableRotation() {
-		TimerTask rotationTask = timerTaskFactory.create();
-		rotationTimer.scheduleAtFixedRate(rotationTask, this.timeProvider.getRotationPeriod());
 		this.listener.fireRotationEnabled();
 		enabled = true;
 	}
